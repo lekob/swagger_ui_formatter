@@ -22,14 +22,14 @@ jobs:
         ref: 5.4.24
 #        path: .
 
-    - name: Remove docker-compose.override.yml
-      run: rm docker-compose.override.yml
-      
-    - name: Start up Wodby containers 
-      run: 'docker-compose up --build -d'
+    - name: Start up Wodby containers
+      run: |
+        'rm docker-compose.override.yml'
+        'docker-compose up --build -d'
 
     - name: Install Drupal
-      run: 'docker-compose exec -T php bash -c "composer require --no-progress drush/drush && drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y -vvv"'
+      # rm -rf vendor/drush && composer install is a hacky workaround...
+      run: 'docker-compose exec -T php bash -c "composer require --no-progress drush/drush && rm -rf vendor/drush && composer install && drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y -vvv"'
 #         'composer require --no-progress drush/drush'
 #         'drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y'
 #        'docker-compose exec -T php bash -c "composer require drush/drush"'  # why is this failing?
