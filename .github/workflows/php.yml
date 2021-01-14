@@ -32,4 +32,5 @@ jobs:
       run: |
         composer require --no-progress drush/drush
         cp ./web/sites/default/default.settings.php ./web/sites/default/settings.php
+        chmod a+w ./web/sites/default/settings.php
         docker-compose exec -T php bash -c "drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"
