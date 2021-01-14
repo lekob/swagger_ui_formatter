@@ -11,21 +11,31 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Sanity test
-        run: lsof -i
-#     - name: Install PHP
-#       uses: shivammathur/setup-php@v2
-#       with:
-#         php-version: 7.4
-#     - name: Composer Install Drupal codebase
-#       run: |
-#         composer create-project --no-progress drupal/recommended-project:^8.9 .
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_DATABASE: drupal
+          MYSQL_ROOT_PASSWORD: password
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
-#     - name: Install Drupal
-#       run: |
-#         composer require --no-progress drush/drush
-#         drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y
+    steps:
+    - name: Install PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+    - name: Composer Install Drupal codebase
+      run: |
+        composer create-project --no-progress drupal/recommended-project:^8.9 .
+
+    - name: Install Drupal
+      run: |
+        composer require --no-progress drush/drush
+        drush si --db-url=mysql://drupal:drupal@localhost:3306/drupal -y
 
 #     - name: Checkout Swagger UI Formatter
 #       uses: actions/checkout@v2
