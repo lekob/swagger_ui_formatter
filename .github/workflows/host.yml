@@ -30,7 +30,7 @@ jobs:
     - name: Install Drupal
       run: |
         composer require --no-progress drush/drush
-        drush si --db-url=mysql://root:root@localhost:3306/drupal -y
+        vendor/bin/drush si --db-url=mysql://root:root@localhost:3306/drupal -y
 
 #     - name: Checkout Swagger UI Formatter
 #       uses: actions/checkout@v2
