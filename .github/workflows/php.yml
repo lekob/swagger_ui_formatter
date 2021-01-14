@@ -24,8 +24,8 @@ jobs:
 
     - name: Start up Wodby containers
       run: |
-        'rm docker-compose.override.yml'
-        'docker-compose up --build -d'
+        rm docker-compose.override.yml
+        docker-compose up --build -d
 
     - name: Install Drupal
       # rm -rf vendor/drush && composer install is a hacky workaround...
