@@ -32,12 +32,12 @@ jobs:
         composer require --no-progress drush/drush
         vendor/bin/drush si --db-url=mysql://root:root@localhost:3306/drupal -y
 
-#     - name: Checkout Swagger UI Formatter
-#       uses: actions/checkout@v2
-#       with:
-#         path: ./web/modules/custom/swagger_ui_formatter
+    - name: Checkout Swagger UI Formatter
+      uses: actions/checkout@v2
+      with:
+        path: ./web/modules/custom/swagger_ui_formatter
 
-#     - name: Install Swagger UI Formatter development dependencies
-#       run: |
-#         composer require --no-progress composer-plugin-api:^1.1
-#         cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
+    - name: Install Swagger UI Formatter development dependencies
+      run: |
+        cd ./web/modules/custom/swagger_ui_formatter
+        composer install --no-progress
