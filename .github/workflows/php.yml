@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Composer Install Drupal codebase
       run: |
-        composer create-project --no-progress drupal/recommended-project .
+        composer create-project --no-progress drupal/recommended-project:^8.9 .
       
     - name: Checkout Wodby containers
       uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
         path: ./tools/wodby
 
     - name: Start up Wodby containers
-      run: cp ./tools/wodby/docker-compose.yml ./tools/wodby/.env . && docker-compose up --build -d && ls -al
+      run: cp ./tools/wodby/docker-compose.yml ./tools/wodby/.env . && docker-compose up --build -d
 
     - name: Install Drupal
       run: |
@@ -39,5 +39,5 @@ jobs:
       with:
         path: ./web/modules/custom/swagger_ui_formatter
 
-    - name: Sanity check
-      run: ls -al ./web/modules/custom/swagger_ui_formatter
+    - name: Install Swagger UI Formatter development dependencies
+      run: cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
