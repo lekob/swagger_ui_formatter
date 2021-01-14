@@ -27,7 +27,7 @@ jobs:
 #           ${{ runner.os }}-php-
 
     - name: Checkout Wodby containers
-      uses: actions/cechkout@v2
+      uses: actions/checkout@v2
       with:
         repository: wodby/docker4drupal
         ref: 5.4.24
