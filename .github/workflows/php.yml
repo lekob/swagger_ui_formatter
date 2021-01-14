@@ -14,8 +14,8 @@ jobs:
     steps:
     - name: Composer Install Drupal codebase
       run: |
-        'composer create-project --no-progress drupal/recommended-project .'
-        'ls -al'
+        composer create-project --no-progress drupal/recommended-project .
+        ls -al
       
     - name: Checkout Wodby containers
       uses: actions/checkout@v2
