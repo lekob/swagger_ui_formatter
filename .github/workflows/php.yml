@@ -13,7 +13,9 @@ jobs:
 
     steps:
     - name: Composer Install Drupal codebase
-      run: 'composer create-project --no-progress drupal/recommended-project .'
+      run: |
+        'composer create-project --no-progress drupal/recommended-project .'
+        'ls -al'
       
     - name: Checkout Wodby containers
       uses: actions/checkout@v2
@@ -24,36 +26,9 @@ jobs:
 
     - name: Start up Wodby containers
       run: |
+        ls -al
         rm docker-compose.override.yml
         docker-compose up --build -d
 
     - name: Install Drupal
-      # rm -rf vendor/drush && composer install is a hacky workaround...
-      run: 'docker-compose exec -T php bash -c "composer require --no-progress drush/drush && rm -rf vendor/drush && composer install && drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y -vvv"'
-#         'composer require --no-progress drush/drush'
-#         'drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y'
-#        'docker-compose exec -T php bash -c "composer require drush/drush"'  # why is this failing?
-
-#     - name: Checkout Swagger UI Formatter
-#       uses: actions/checkout@v2
-#       with:
-#         path: ./web/modules/custom
-
-#     - name: Install Swagger UI Formatter
-#       run: |
-#         'cd web/modules/custom/swagger_ui_formatter'
-#         'composer install'
-#         'docker-compose exec -T php bash -c "drush en swagger_ui_formatter -y"'
-
-
-
-
-#     - name: Install dependencies
-#       if: steps.composer-cache.outputs.cache-hit != 'true'
-#       run: composer install --prefer-dist --no-progress --no-suggest
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
+      run: 'docker-compose exec -T php bash -c "composer require drush/drush && drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"'
