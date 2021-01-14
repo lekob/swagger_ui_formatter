@@ -31,5 +31,12 @@ jobs:
         composer require --no-progress drush/drush
         cp ./web/sites/default/default.settings.php ./web/sites/default/settings.php
         chmod a+w ./web/sites/default
-        chmod a+w ./web/sites/default/settings.php
         docker-compose exec -T php bash -c "drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"
+
+    - name: Instal Swagger UI Formatter
+      uses: actions/checkout@v2
+      with:
+        path: ./web/modules/custom/swagger_ui_formatter
+
+    - name: Sanity check
+      run: ls -al ./web/modules/custom/swagger_ui_formatter
