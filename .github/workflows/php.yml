@@ -38,12 +38,12 @@ jobs:
         chmod a+w ./web/sites/default
         docker-compose exec -T php bash -c "drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"
 
-    - name: Instal Swagger UI Formatter
+    - name: Checkout Swagger UI Formatter
       uses: actions/checkout@v2
       with:
         path: ./web/modules/custom/swagger_ui_formatter
 
     - name: Install Swagger UI Formatter development dependencies
       run: |
-        composer require --no-progress composer-plugin-api ^1.1
+        composer require --no-progress composer-plugin-api:^1.1
         cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
