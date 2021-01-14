@@ -22,12 +22,12 @@ jobs:
       with:
         repository: wodby/docker4drupal
         ref: 5.4.24
-#        path: .
+        path: ./wodby
 
     - name: Start up Wodby containers
       run: |
+        cp ./wodby/docker-compose.yml .env .
         ls -al
-        rm docker-compose.override.yml
         docker-compose up --build -d
 
     - name: Install Drupal
