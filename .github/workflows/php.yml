@@ -10,15 +10,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-versions: ['7.4']
 
     steps:
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php-versions }}
+        php-version: 7.4
     - name: Composer Install Drupal codebase
       run: |
         composer create-project --no-progress drupal/recommended-project:^8.9 .
@@ -47,4 +44,6 @@ jobs:
         path: ./web/modules/custom/swagger_ui_formatter
 
     - name: Install Swagger UI Formatter development dependencies
-      run: cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
+      run: |
+        composer require --no-progress composer-plugin-api ^1.1
+        cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
