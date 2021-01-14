@@ -12,32 +12,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#     - uses: actions/checkout@v2
-
-#     - name: Validate composer.json and composer.lock
-#       run: composer validate
-
-#     - name: Cache Composer packages
-#       id: composer-cache
-#       uses: actions/cache@v2
-#       with:
-#         path: vendor
-#         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-#         restore-keys: |
-#           ${{ runner.os }}-php-
-
+    - name: Composer Install Drupal codebase
+      run: 'composer create-project drupal/recommended-project .'
+      
     - name: Checkout Wodby containers
       uses: actions/checkout@v2
       with:
         repository: wodby/docker4drupal
         ref: 5.4.24
-        path: .
+#        path: .
+
+    - name: Remove docker-compose.override.yml
+      run: rm docker-compose.override.yml
       
     - name: Start up Wodby containers 
       run: 'docker-compose up --build -d'
+
     
     - name: Install Drupal
-      run: 'docker-compose exec -T php bash -c "composer require drush/drush && drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"'
+      run: |
+        'docker-compose exec -T php bash -c "composer require drush/drush'
+        'drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y"'
+    
+#     - name: Checkout Swagger UI Formatter
+#       uses: actions/checkout@v2
+#       with:
+#         path: ./web/modules/custom
+
+#     - name: Install Swagger UI Formatter
+#       run: |
+#         'cd web/modules/custom/swagger_ui_formatter'
+#         'composer install'
+#         'docker-compose exec -T php bash -c "drush en swagger_ui_formatter -y"'
+
+
+
 
 #     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
