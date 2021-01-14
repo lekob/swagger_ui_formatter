@@ -1,0 +1,38 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sanity test
+        run: lsof -i
+#     - name: Install PHP
+#       uses: shivammathur/setup-php@v2
+#       with:
+#         php-version: 7.4
+#     - name: Composer Install Drupal codebase
+#       run: |
+#         composer create-project --no-progress drupal/recommended-project:^8.9 .
+
+#     - name: Install Drupal
+#       run: |
+#         composer require --no-progress drush/drush
+#         drush si --db-url=mysql://drupal:drupal@mariadb:3306/drupal -y
+
+#     - name: Checkout Swagger UI Formatter
+#       uses: actions/checkout@v2
+#       with:
+#         path: ./web/modules/custom/swagger_ui_formatter
+
+#     - name: Install Swagger UI Formatter development dependencies
+#       run: |
+#         composer require --no-progress composer-plugin-api:^1.1
+#         cd ./web/modules/custom/swagger_ui_formatter && composer install --no-progress
