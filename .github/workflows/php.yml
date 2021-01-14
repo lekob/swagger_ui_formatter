@@ -26,7 +26,7 @@ jobs:
 
     - name: Start up Wodby containers
       run: |
-        cp ./wodby/docker-compose.yml .env .
+        cp ./wodby/docker-compose.yml ./wodby/.env .
         ls -al
         docker-compose up --build -d
 
