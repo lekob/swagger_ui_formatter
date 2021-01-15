@@ -30,7 +30,7 @@ jobs:
 
     - name: Create Docker containers
       run: |
-        docker-compose pull
+        docker-compose pull --quiet
         docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
@@ -47,7 +47,8 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest
+#       run: composer install --prefer-dist --no-progress
+      run: docker-compose exec -T php composer install --no-interaction --no-suggest --no-progress -d ..
 
     - name: Set up Drupal settings files
       run: |
