@@ -42,7 +42,7 @@ jobs:
       id: composer-cache
       uses: actions/cache@v2
       with:
-        path: vendor
+        path: ./build/vendor
         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-php-
@@ -53,6 +53,7 @@ jobs:
 
     - name: Set up Drupal settings files
       run: |
+        chmod a+rw build/web/sites/default/
         chmod a+rw ./drupal-dev/drupal/settings.php
         ln -s ../../../../drupal-dev/drupal/settings.php build/web/sites/default/settings.php
         chmod a+rw ./drupal-dev/drupal/settings.shared.php
