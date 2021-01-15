@@ -28,12 +28,13 @@ jobs:
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
-        touch composer.lock
-        sudo chown runneradmin composer.lock
-      # chmod a+rw .
+        chmod a+rw .
+      # touch composer.lock
+      # sudo chown runneradmin composer.lock
       # anyone can rw . because docker needs to create a composer.lock file in the . dir. Another option to research would be to touch composer.lock and change
       # its owner to runneradmin, but in that case the cache key, used by composer-cache, would need to be calcualted from something else than composer.lock
       # but... since composer.lock doesn't exist and needs to be created on every install composer-cache might be a mute point...
+      # touch composer.lock: composer.lock must have valid JSON. Maybe something simple can fool composer... "./composer.lock" does not contain valid JSON
 
     - name: Create Docker containers
       run: |
