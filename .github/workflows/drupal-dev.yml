@@ -24,6 +24,7 @@ jobs:
     - name: Setup environment
       run: |
         mkdir build
+        chmod a+rw build
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
@@ -47,8 +48,7 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-#       run: composer install --prefer-dist --no-progress
-      run: docker-compose exec -T php composer install --no-interaction --no-suggest --no-progress -d ..
+      run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
 
     - name: Set up Drupal settings files
       run: |
