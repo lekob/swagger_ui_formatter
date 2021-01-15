@@ -1,0 +1,66 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Swagger UI Formatter
+      uses: actions/checkout@v2
+
+    - name: Checkout Drupal-Dev
+      uses: actions/checkout@v2
+      with:
+        repository: Pronovix/docker-drupal-dev
+        path: ./drupal-dev
+
+    - name: Setup environment
+      run: |
+        mkdir build
+        ln -s drupal-dev/docker-compose.yml .
+        ln -s drupal-dev/Dockerfile .
+        printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
+
+    - name: Create Docker containers
+      run: |
+        docker-compose pull
+        docker-compose up -d --build
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Set up Drupal settings files
+      run: |
+        ln -s ../../../../drupal-dev/drupal/settings.php build/web/sites/default/settings.php
+        ln -s ../../../../drupal-dev/drupal/settings.shared.php build/web/sites/default/settings.shared.php
+        ln -s ../../../../drupal-dev/drupal/settings.testing.php build/web/sites/default/settings.testing.php
+        ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
+
+    - name: Run tests
+      run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
