@@ -28,30 +28,32 @@ jobs:
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
+        touch composer.lock
+        sudo chown runneradmin composer.lock
+      # chmod a+rw .
+      # anyone can rw . because docker needs to create a composer.lock file in the . dir. Another option to research would be to touch composer.lock and change
+      # its owner to runneradmin, but in that case the cache key, used by composer-cache, would need to be calcualted from something else than composer.lock
+      # but... since composer.lock doesn't exist and needs to be created on every install composer-cache might be a mute point...
 
     - name: Create Docker containers
       run: |
         docker-compose pull --quiet
         docker-compose up -d --build
-        
-    - name: Make build directory
-      # use docker because this way the build dir will have the right permissions and composer (which also runs in docker) will be able to write to this dir.
-      run: docker-compose exec -T php mkdir build
 
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: ./build/vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+#     - name: Cache Composer packages
+#       id: composer-cache
+#       uses: actions/cache@v2
+#       with:
+#         path: ./build/vendor
+#         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+#         restore-keys: |
+#           ${{ runner.os }}-php-
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+#       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
 
     - name: Set up Drupal settings files
