@@ -36,10 +36,15 @@ jobs:
       # but... since composer.lock doesn't exist and needs to be created on every install composer-cache might be a mute point...
       # touch composer.lock: composer.lock must have valid JSON. Maybe something simple can fool composer... "./composer.lock" does not contain valid JSON
 
-    - name: Create Docker containers
-      run: |
-        docker-compose pull --quiet
-        docker-compose up -d --build
+    - name: Pull Docker containers
+      run: docker-compose pull --quiet
+
+    - name: Cache pulled Docker containers
+      uses: actions/checkout@v2
+      continue-on-error: true
+
+    - name: Create Docker containers    
+      run: docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
       run: composer validate
