@@ -23,6 +23,8 @@ jobs:
 
     - name: Setup environment
       run: |
+        mkdir build
+        sudo chown runneradmin build
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
@@ -54,11 +56,7 @@ jobs:
 
     - name: Set up Drupal settings files
       run: |
-        ls -al
-        ls -al drupal-dev
-        ls -al build/web/sites/default
-        chmod 777 -R drupal-dev
-        chmod 777 -R build/web/sites/default
+        sudo chown -R runneradmin drupal-dev
         ln -s ../../../../drupal-dev/drupal/settings.php build/web/sites/default/settings.php
         ln -s ../../../../drupal-dev/drupal/settings.shared.php build/web/sites/default/settings.shared.php
         ln -s ../../../../drupal-dev/drupal/settings.testing.php build/web/sites/default/settings.testing.php
