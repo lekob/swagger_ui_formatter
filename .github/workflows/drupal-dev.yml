@@ -62,10 +62,10 @@ jobs:
         sudo chown -R runneradmin drupal-dev
         ls -al drupal-dev
         ls -al build/web/sites/default
-        ln -s ../../../../drupal-dev/drupal/settings.php build/web/sites/default/settings.php
-        ln -s ../../../../drupal-dev/drupal/settings.shared.php build/web/sites/default/settings.shared.php
-        ln -s ../../../../drupal-dev/drupal/settings.testing.php build/web/sites/default/settings.testing.php
-        ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
+        ln -s ../../../../drupal-dev/drupal/settings.php web/sites/default/settings.php
+        ln -s ../../../../drupal-dev/drupal/settings.shared.php web/sites/default/settings.shared.php
+        ln -s ../../../../drupal-dev/drupal/settings.testing.php web/sites/default/settings.testing.php
+        ln -s ../../../drupal-dev/drupal/development.services.yml.dist web/sites/development.services.yml.dist
 
     - name: Run tests
       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
