@@ -53,14 +53,14 @@ jobs:
 
     - name: Set up Drupal settings files
       run: |
-        chmod a+rw build/web/sites/default/
-        chmod a+rw ./drupal-dev/drupal/settings.php
+        ls -al
+        ls -al drupal-dev
+        ls -al build/web/sites/default
+        chmod 777 -R drupal-dev
+        chmod 777 -R build/web/sites/default
         ln -s ../../../../drupal-dev/drupal/settings.php build/web/sites/default/settings.php
-        chmod a+rw ./drupal-dev/drupal/settings.shared.php
         ln -s ../../../../drupal-dev/drupal/settings.shared.php build/web/sites/default/settings.shared.php
-        chmod a+rw ./drupal-dev/drupal/settings.testing.php
         ln -s ../../../../drupal-dev/drupal/settings.testing.php build/web/sites/default/settings.testing.php
-        chmod a+rw ./drupal-dev/drupal/development.services.yml.dist
         ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
 
     - name: Run tests
