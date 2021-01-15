@@ -23,9 +23,6 @@ jobs:
 
     - name: Setup environment
       run: |
-        mkdir build
-        chmod a+rw build
-        chmod a+rw .
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
@@ -34,6 +31,10 @@ jobs:
       run: |
         docker-compose pull --quiet
         docker-compose up -d --build
+        
+    - name: Make build directory
+      # use docker because this way the build dir will have the right permissions and composer (which also runs in docker) will be able to write to this dir.
+      run: docker-compose exec -T php mkdir build
 
     - name: Validate composer.json and composer.lock
       run: composer validate
