@@ -25,6 +25,7 @@ jobs:
       run: |
         mkdir build
         chmod a+rw build
+        ls -al
         ln -s drupal-dev/docker-compose.yml .
         ln -s drupal-dev/Dockerfile .
         printf "COMPOSE_PROJECT_NAME=swagger_ui_formatter\n" > .env
