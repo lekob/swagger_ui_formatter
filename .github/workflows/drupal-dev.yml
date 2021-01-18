@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout Swagger UI Formatter
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # important!
 
     - name: Checkout Drupal coding standard
       uses: actions/checkout@v2
