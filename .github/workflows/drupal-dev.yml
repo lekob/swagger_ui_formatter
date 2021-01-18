@@ -39,9 +39,9 @@ jobs:
     - name: Pull Docker images
       run: docker-compose pull --quiet
 
-    - name: Cache pulled Docker images
-      uses: satackey/action-docker-layer-caching@v0.0.11
-      continue-on-error: true
+#     - name: Cache pulled Docker images
+#       uses: satackey/action-docker-layer-caching@v0.0.11
+#       continue-on-error: true
 
     - name: Create Docker containers    
       run: docker-compose up -d --build
