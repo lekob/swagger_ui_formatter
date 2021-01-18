@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, gh-actions-test-with-drupal-dev ]
 
 jobs:
   phpcs:
