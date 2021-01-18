@@ -30,6 +30,7 @@ jobs:
         files: "**.php" # you may customize glob as needed
         phpcs_path: php phpcs.phar
         standard: ./coding-standard/src/Standards/AcquiaDrupalStrict/ruleset.xml
+        scope: file
 
   build:
 
