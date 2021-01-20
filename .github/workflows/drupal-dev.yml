@@ -59,7 +59,12 @@ jobs:
       matrix:
         # Quoted because of the colon character in the image names.
         php_image: ["wodby/drupal-php:7.2-dev", "wodby/drupal-php:7.3-dev", "wodby/drupal-php:7.4-dev"]
-    
+        db_image: ["wodby/mariadb:10.3", "wodby/mariadb:10.4", "wodby/mariadb:10.5"]
+        include:
+          # include MariaDB 10.2 on PHP 7.2
+          - php_image: "wodby/drupal-php:7.2-dev"
+            db_image: "wodby/mariadb:10.2"
+
     steps:
     - name: Checkout Swagger UI Formatter
       uses: actions/checkout@v2
@@ -92,10 +97,13 @@ jobs:
 #       uses: satackey/action-docker-layer-caching@v0.0.11
 #       continue-on-error: true
 
-    - name: Create Docker containers    
+    - name: Create Docker containers
+      env:
+        PHP_IMAGE: ${{ matrix.php_image }}
+        DB_IMAGE: ${{ matrix.db_image }}
       run: |
         docker-compose pull --quiet
-        PHP_IMAGE="${{ matrix.php_image }}" docker-compose up -d --build
+        docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
       run: composer validate
