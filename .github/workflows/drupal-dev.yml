@@ -54,6 +54,11 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php_image: [wodby/drupal-php:7.2-dev, wodby/drupal-php:7.3-dev, wodby/drupal-php:7.4-dev, wodby/drupal-php:8.0-dev]
+    
     steps:
     - name: Checkout Swagger UI Formatter
       uses: actions/checkout@v2
@@ -88,7 +93,7 @@ jobs:
 
     - name: Create Docker containers    
       run: |
-        docker-compose pull --quiet
+        docker-compose --env PHP_IMAGE="${{ matrix.php_image }}" pull --quiet
         docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
