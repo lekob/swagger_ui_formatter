@@ -95,7 +95,7 @@ jobs:
     - name: Create Docker containers    
       run: |
         docker-compose pull --quiet
-        docker-compose --env PHP_IMAGE="${{ matrix.php_image }}" up -d --build
+        PHP_IMAGE="${{ matrix.php_image }}" docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
       run: composer validate
