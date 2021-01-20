@@ -57,7 +57,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php_image: [wodby/drupal-php:7.2-dev, wodby/drupal-php:7.3-dev, wodby/drupal-php:7.4-dev, wodby/drupal-php:8.0-dev]
+        # Quoted because of the colon character in the image names.
+        php_image: ["wodby/drupal-php:7.2-dev", "wodby/drupal-php:7.3-dev", "wodby/drupal-php:7.4-dev"]
     
     steps:
     - name: Checkout Swagger UI Formatter
