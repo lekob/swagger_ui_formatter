@@ -115,7 +115,7 @@ jobs:
         split-by: ':'
 
     - name: Set build/vendor permissions
-      run: sudo chowm -r runner build/vendor
+      run: sudo chown -r runner build/vendor
 
     - name: Cache Composer packages
       id: composer-cache
@@ -127,7 +127,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Reset build/ permissions
-      run: sudo chowm -r runneradmin build/vendor
+      run: sudo chown -r runneradmin build/vendor
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
