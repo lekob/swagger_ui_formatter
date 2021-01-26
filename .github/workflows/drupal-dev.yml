@@ -114,8 +114,8 @@ jobs:
         string: ${{ matrix.php_image }}
         split-by: ':'
 
-    - name: Set build/vendor permissions
-      run: sudo chown -R runner build/vendor
+    - name: Set build/ permissions
+      run: sudo chown -R runner build/
 
     - name: Cache Composer packages
       id: composer-cache
@@ -127,7 +127,7 @@ jobs:
           ${{ runner.os }}-php-
 
     - name: Reset build/ permissions
-      run: sudo chown -R runneradmin build/vendor
+      run: sudo chown -R runneradmin build/
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
