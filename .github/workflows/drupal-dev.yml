@@ -119,7 +119,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./build/vendor
-        key: ${{ runner.os }}-php-${{ steps.split._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
+        key: ${{ runner.os }}-php-${{ steps.split.outputs._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
         restore-keys: |
           ${{ runner.os }}-php-
 
