@@ -108,19 +108,27 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-#     - name: Cache Composer packages
-#       id: composer-cache
-#       uses: actions/cache@v2
-#       with:
-#         path: ./build/vendor
-#         key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-#         restore-keys: |
-#           ${{ runner.os }}-php-
+    - uses: rishabhgupta/split-by@v1
+      id: split
+      with:
+        string: ${{ matrix.php_image }}
+        split-by: ':'
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: ./build/vendor
+        key: ${{ runner.os }}-php-${{ steps.split._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
 
     - name: Install dependencies
-#       if: steps.composer-cache.outputs.cache-hit != 'true'
-#       run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
-      run: composer install --no-interaction --no-suggest
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
+      # Running composer install outsite the container will not work:
+      # Root composer.json requires php ^7.2 but your php version (8.0.0) does not satisfy that requirement.
+      # run: composer install --no-interaction --no-suggest
 
     - name: Set up Drupal settings files
       run: |
