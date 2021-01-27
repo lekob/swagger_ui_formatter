@@ -143,8 +143,8 @@ jobs:
         ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
         sudo chown -R runneradmin build/web/sites
 
-    - name: Run tests
-      run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
+#     - name: Run tests
+#       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
