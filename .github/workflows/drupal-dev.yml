@@ -109,18 +109,18 @@ jobs:
 
 #     - name: Set build/ permissions
 #       run: sudo chown -R runner build/
-    
+
     - name: Make sure that the ./cache/ folder exists
       run: mkdir cache
-    
+
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
       with:
         path: ./cache
         key: ${{ runner.os }}-php-${{ steps.split.outputs._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+#         restore-keys: |
+#           ${{ runner.os }}-php-
 
 #     - name: Reset build/ permissions
 #       run: sudo chown -R runneradmin build/
@@ -129,7 +129,6 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
         docker cp ./cache swagger_ui_formatter_php:/home/wodby/.composer/cache/files
-        docker-compose exec -T php ls /home/wodby/.composer/cache/files
 
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
