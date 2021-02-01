@@ -90,17 +90,12 @@ jobs:
       # but... since composer.lock doesn't exist and needs to be created on every install composer-cache might be a mute point...
       # touch composer.lock: composer.lock must have valid JSON. Maybe something simple can fool composer... "./composer.lock" does not contain valid JSON
 
-#     - name: Set up Docker Buildx
-#       uses: docker/setup-buildx-action@v1
-#       with:
-#         install: true
-
     - name: Create Docker containers
       env:
         PHP_IMAGE: ${{ matrix.php_image }}
         DB_IMAGE: ${{ matrix.db_image }}
       run: |
-        docker-compose pull
+        docker-compose pull --quiet
         docker-compose up -d --build
 
     - name: Validate composer.json and composer.lock
@@ -133,7 +128,9 @@ jobs:
     - name: Copy Composer cache from Docker PHP container
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
+        ls ./cache
         docker cp ./cache swagger_ui_formatter_php:/home/wodby/.composer/cache/files
+        docker-compose exec -T php ls /home/wodby/.composer/cache/files
 
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
