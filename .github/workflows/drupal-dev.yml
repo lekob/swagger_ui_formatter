@@ -153,6 +153,7 @@ jobs:
 
     - name: Copy cache from Docker PHP Container
       run: |
+        sudo chown -R runner files
         docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
 
     - run: ls -al files
