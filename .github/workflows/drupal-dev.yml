@@ -123,7 +123,8 @@ jobs:
     - name: Copy Composer cache to Docker PHP container
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
-        docker cp -a ./files/files swagger_ui_formatter_php:/home/wodby/.composer/cache/
+        sudo chown -R runneradmin files
+        docker cp ./files/files swagger_ui_formatter_php:/home/wodby/.composer/cache/
     - run: docker-compose exec -T php ls -al /home/wodby/.composer
     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
@@ -149,7 +150,8 @@ jobs:
         sudo chown -R runneradmin build/web/sites
     - name: Copy cache from Docker PHP Container
       run: |
-        docker cp -a swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
+        sudo chown -R runner files
+        docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
 
     - run: ls -al files
 #     - name: Run tests
