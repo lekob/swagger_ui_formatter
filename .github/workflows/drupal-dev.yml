@@ -115,6 +115,9 @@ jobs:
 #     - name: Set build/ permissions
 #       run: sudo chown -R runner build/
     
+    - name: Make sure that the ./cache/ folder exists
+      run: mkdir cache
+    
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
