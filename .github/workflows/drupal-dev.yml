@@ -136,7 +136,7 @@ jobs:
         docker cp ./cache swagger_ui_formatter_php:/home/wodby/.composer/cache/files
 
     - name: Install dependencies
-      if: steps.composer-cache.outputs.cache-hit != 'true'
+#       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
       # Running composer install outsite the container will not work:
       # Root composer.json requires php ^7.2 but your php version (8.0.0) does not satisfy that requirement.
