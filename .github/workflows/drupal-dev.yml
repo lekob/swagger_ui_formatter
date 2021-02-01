@@ -146,10 +146,9 @@ jobs:
         ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
         sudo chown -R runneradmin build/web/sites
 
-    - name: Copy cache
+    - name: Copy cache from Docker PHP Container
       run: |
         docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files ./cache
-        ls ./cache
 
 #     - name: Run tests
 #       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
