@@ -132,7 +132,7 @@ jobs:
 
     - run: docker-compose exec -T php ls -al /home/wodby/.composer
     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
-    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
+#     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
 
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
