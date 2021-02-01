@@ -124,6 +124,7 @@ jobs:
     - name: Copy Composer cache to Docker PHP container
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
+        sudo chown -R runneradmin files
         docker cp ./files/files swagger_ui_formatter_php:/home/wodby/.composer/cache/
 
     - run: docker-compose exec -T php ls -al /home/wodby/.composer
