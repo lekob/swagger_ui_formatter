@@ -107,24 +107,28 @@ jobs:
         string: ${{ matrix.php_image }}
         split-by: ':'
 
-#     - name: Make sure that the ./files/ folder exists
-#       run: mkdir files
+    - name: Make sure that the ./files/ folder exists
+      run: mkdir files
+    
+    - run: ls -al files
 
-#     - name: Cache Composer packages
-#       id: composer-cache
-#       uses: actions/cache@v2
-#       with:
-#         path: ./files
-#         key: ${{ runner.os }}-php-${{ steps.split.outputs._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: ./files
+        key: ${{ runner.os }}-php-${{ steps.split.outputs._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
 
-#     - name: Copy Composer cache to Docker PHP container
-#       if: steps.composer-cache.outputs.cache-hit == 'true'
-#       run: |
-#         docker cp ./files swagger_ui_formatter_php:/home/wodby/.composer/cache/
+    - run: ls -al files
 
-#     - run: docker-compose exec -T php ls -al /home/wodby/.composer
-#     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
-#     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
+    - name: Copy Composer cache to Docker PHP container
+      if: steps.composer-cache.outputs.cache-hit == 'true'
+      run: |
+        docker cp ./files swagger_ui_formatter_php:/home/wodby/.composer/cache/
+
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
 
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
