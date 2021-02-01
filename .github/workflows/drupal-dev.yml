@@ -154,6 +154,7 @@ jobs:
       run: |
         docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
 
+    - run: ls -al files
 #     - name: Run tests
 #       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
 
