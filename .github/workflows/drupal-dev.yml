@@ -128,7 +128,7 @@ jobs:
     - name: Copy Composer cache to Docker PHP container
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
-        docker cp ./files/files swagger_ui_formatter_php:/home/wodby/.composer/cache/
+        docker cp ./files swagger_ui_formatter_php:/home/wodby/.composer/cache/
 
     - run: docker-compose exec -T php ls -al /home/wodby/.composer
     - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
@@ -152,7 +152,7 @@ jobs:
 
     - name: Copy cache from Docker PHP Container
       run: |
-        docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files ./files
+        docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
 
 #     - name: Run tests
 #       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
