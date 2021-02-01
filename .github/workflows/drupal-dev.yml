@@ -130,6 +130,8 @@ jobs:
       run: |
         docker cp ./cache swagger_ui_formatter_php:/home/wodby/.composer/cache/files
 
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
+
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: docker-compose exec -T php composer install --no-interaction --no-suggest -d ..
