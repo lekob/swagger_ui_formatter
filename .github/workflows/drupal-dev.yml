@@ -97,7 +97,6 @@ jobs:
       run: |
         docker-compose pull --quiet
         docker-compose up -d --build
-
     - name: Validate composer.json and composer.lock
       run: composer validate
 
@@ -109,6 +108,8 @@ jobs:
 
     - name: Make sure that the ./files/ folder exists
       run: mkdir files
+    
+    - run: ls -al files
 
     - name: Cache Composer packages
       id: composer-cache
@@ -117,11 +118,16 @@ jobs:
         path: ./files
         key: ${{ runner.os }}-php-${{ steps.split.outputs._1 }}-ver-${{ secrets.CACHE_VERSION }}-${{ hashFiles('**/composer.json') }}
 
+    - run: ls -al files
+
     - name: Copy Composer cache to Docker PHP container
       if: steps.composer-cache.outputs.cache-hit == 'true'
       run: |
         sudo chown -R runneradmin files
         docker cp ./files/files swagger_ui_formatter_php:/home/wodby/.composer/cache/
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
 
     - name: Install dependencies
 #       if: steps.composer-cache.outputs.cache-hit != 'true'
@@ -129,6 +135,10 @@ jobs:
       # Running composer install outsite the container will not work:
       # Root composer.json requires php ^7.2 but your php version (8.0.0) does not satisfy that requirement.
       # run: composer install --no-interaction --no-suggest
+
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache
+    - run: docker-compose exec -T php ls -al /home/wodby/.composer/cache/files
 
     - name: Set up Drupal settings files
       run: |
@@ -138,12 +148,11 @@ jobs:
         ln -s ../../../../drupal-dev/drupal/settings.testing.php build/web/sites/default/settings.testing.php
         ln -s ../../../drupal-dev/drupal/development.services.yml.dist build/web/sites/development.services.yml.dist
         sudo chown -R runneradmin build/web/sites
-
     - name: Copy cache from Docker PHP Container
       run: |
         sudo chown -R runner files
         docker cp swagger_ui_formatter_php:/home/wodby/.composer/cache/files .
-
+    - run: ls -al files
 #     - name: Run tests
 #       run: docker-compose exec -T --env XDEBUG_CONFIG="log_level=0" php ./vendor/bin/phpunit -c web/core -v --debug --printer '\Drupal\Tests\Listeners\HtmlOutputPrinter' web/modules/drupal_module/tests/
 
