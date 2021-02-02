@@ -23,6 +23,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           LOG_LEVEL: WARN
           DEFAULT_BRANCH: master
+          VALIDATE_PHP_PHPCS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #   phpcs:
