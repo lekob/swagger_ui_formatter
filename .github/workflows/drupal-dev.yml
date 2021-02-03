@@ -17,6 +17,17 @@ jobs:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
 
+      - name: Checkout drupal-qa
+        uses: actions/checkout@v2
+        with:
+          repository: Pronovix/drupal-qa
+          path: ./drupal-qa
+
+      - name: Install linters
+        run: |
+          cd drupal-qa
+          composer install  
+
       - name: Lint Code Base
         uses: github/super-linter@v3
         env:
@@ -25,7 +36,8 @@ jobs:
           DEFAULT_BRANCH: master
           VALIDATE_PHP_PHPCS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PHP_PHPCS_LINTER_RULES: /github/workspace/.github/linters/Drupal
+          PHP_PHPCS_LINTER_RULES: "whatever --config-set /github/workspace/drupal-qa/vendor/drupal/coder/coder_sniffer,/github/workspace/drupal-qa/vendor/sirbrillig/phpcs-variable-analysis,/github/workspace/drupal-qa/vendor/slevomat/coding-standard"
+#           PHP_PHPCS_LINTER_RULES: /github/workspace/.github/linters/Drupal
 
 #   phpcs:
 #     runs-on: ubuntu-latest
