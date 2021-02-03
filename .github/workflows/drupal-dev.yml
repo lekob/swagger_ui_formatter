@@ -25,6 +25,7 @@ jobs:
           DEFAULT_BRANCH: master
           VALIDATE_PHP_PHPCS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PHP_PHPCS_LINTER_RULES: ./Drupal
 
 #   phpcs:
 #     runs-on: ubuntu-latest
