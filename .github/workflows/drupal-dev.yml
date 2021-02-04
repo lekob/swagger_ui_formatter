@@ -9,7 +9,7 @@ on:
 jobs:
   super-linter:
     name: Run Super Linter
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -69,7 +69,7 @@ jobs:
 #         scope: file
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
       fail-fast: true
       matrix:
