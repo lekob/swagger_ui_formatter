@@ -9,7 +9,7 @@ on:
 jobs:
   super-linter:
     name: Run Super Linter
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
