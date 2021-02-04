@@ -32,11 +32,10 @@ jobs:
         uses: github/super-linter@v3
         env:
           VALIDATE_ALL_CODEBASE: true
-          LOG_LEVEL: DEBUG
+          LOG_LEVEL: WARN
           DEFAULT_BRANCH: master
           VALIDATE_PHP_PHPCS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PHP_PHPCS_LINTER_RULES: /github/workspace/Drupal
           FILTER_REGEX_EXCLUDE: .*Drupal.*
 
 #   phpcs:
