@@ -37,6 +37,7 @@ jobs:
           VALIDATE_PHP_PHPCS: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PHP_PHPCS_LINTER_RULES: /github/workspace/Drupal
+          FILTER_REGEX_EXCLUDE: .*Drupal.*
 
 #   phpcs:
 #     runs-on: ubuntu-latest
