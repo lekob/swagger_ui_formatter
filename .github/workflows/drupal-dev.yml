@@ -41,32 +41,32 @@ jobs:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #           FILTER_REGEX_EXCLUDE: .*Drupal.*
 
-#   phpcs:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checkout Swagger UI Formatter
-#       uses: actions/checkout@v2
-#       with:
-#         fetch-depth: 0 # important!
+  phpcs:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout Swagger UI Formatter
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # important!
 
-#     - name: Checkout Drupal coding standard
-#       uses: actions/checkout@v2
-#       with:
-#         repository:  acquia/coding-standards-php
-#         path: ./coding_standards
+    - name: Checkout Drupal coding standard
+      uses: actions/checkout@v2
+      with:
+        repository:  acquia/coding-standards-php
+        path: ./coding_standards
 
-#     - name: Install PHP_CodeSniffer
-#       run: |
-#         curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-#         php phpcs.phar --version
+    - name: Install PHP_CodeSniffer
+      run: |
+        curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+        php phpcs.phar --version
 
-#     - name: Run PHP Code Sniffer
-#       uses: tinovyatkin/action-php-codesniffer@v1
-#       with:
-#         files: "**.php" # you may customize glob as needed
-#         phpcs_path: php phpcs.phar
-#         standard: ./coding-standard/src/Standards/AcquiaDrupalStrict/ruleset.xml
-#         scope: file
+    - name: Run PHP Code Sniffer
+      uses: tinovyatkin/action-php-codesniffer@v1
+      with:
+        files: "**.php" # you may customize glob as needed
+        phpcs_path: php phpcs.phar
+        standard: ./coding-standard/src/Standards/AcquiaDrupalStrict/ruleset.xml
+        scope: file
 
   build:
     runs-on: ubuntu-latest
