@@ -9,7 +9,7 @@ on:
 jobs:
   super-linter:
     name: Run Super Linter
-    runs-on: self-hosted
+    runs-on: [self-hosted, feta]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
